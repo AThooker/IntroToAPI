@@ -20,5 +20,15 @@ namespace IntroToAPI.Models
             }
             return null;
         }
+
+        public async Task<Vehicle> GetVehicleAsync(string url)
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            if(response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsAsync<Vehicle>();
+            }
+            return null;
+        }
     }
 }

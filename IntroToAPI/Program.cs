@@ -14,6 +14,7 @@ namespace IntroToAPI
         {
             HttpClient httpClient = new HttpClient();
             var response = httpClient.GetAsync("http https://swapi.dev/api/people/1/").Result;
+
             if(response.IsSuccessStatusCode)
             {
                 Console.WriteLine(response.Content.ReadAsStringAsync().Result);
@@ -27,6 +28,20 @@ namespace IntroToAPI
                     Vehicle vehicle = vehicleResponse.Content.ReadAsAsync<Vehicle>().Result;
                     Console.WriteLine(vehicle.Name);
 
+                }
+            }
+
+            SWAPIService swapiService = new SWAPIService();
+            Person personOne = swapiService.GetPersonAsync("https://swapi.dev/api/people/11").Result;
+
+            if(personOne != null)
+            {
+                Console.Clear();
+                Console.WriteLine($"The character that has been entered is: {personOne.Name}");
+                foreach(string vehicleUrl in personOne.Vehicles)
+                {
+                    var vehicle = swapiService.GetVehicleAsync(vehicleUrl).Result;
+                    Console.WriteLine($"They drive: {vehicle.Name}");
                 }
             }
         }
